@@ -1,6 +1,6 @@
 #include "common.h"
 #include "encoder.h"
-#include "include/modeMenu.h"
+#include "./include/modeMenu.h"
 
 
 #define TPCharged     (!digitalRead(TP_CHARGED_PIN) && digitalRead(TP_CHARGING_PIN))
@@ -46,7 +46,7 @@ void recovery(MenuAction action) {
     case MenuAction::pageEnter:
       printCaption("RECOVERY");
       printDischargeInfo(100);
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::execute:
     case MenuAction::executeNoCaptionInfo:
@@ -78,11 +78,11 @@ void discharge(MenuAction action) {
     case MenuAction::pageEnter:
       printCaption("DISCHARGE");
       mAhMeasuringSetup();
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::execute:
       printCaptionInfo(-1, discharge_mA);
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::executeNoCaptionInfo:
       if (!batteryPresent) {
@@ -147,11 +147,11 @@ void charge(MenuAction action) {
   switch (action) {
     case MenuAction::pageEnter:
       printCaption("CHARGE");
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::execute:
       printCaptionInfo(charge_mA);
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::executeNoCaptionInfo:
       charged = TPCharged && volt > 4.1;
@@ -184,12 +184,12 @@ void capacityTest(MenuAction action) {
     case MenuAction::pageEnter:
       printCaption("CAPACITY");
       charged = discharged = false;
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::execute:
       printCaptionInfo(charge_mA, discharge_mA);
       action = MenuAction::executeNoCaptionInfo;
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::executeNoCaptionInfo:
     case MenuAction::menuExit:
@@ -222,11 +222,11 @@ void checkHealth(MenuAction action) {
     case MenuAction::pageEnter:
       printCaption("CHECK HEALTH");
       phase = 0;
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::execute:
       printCaptionInfo(-1, discharge_mA);
-      // 'break' deliberately missing
+      [[fallthrough]]
 
     case MenuAction::executeNoCaptionInfo:
       switch (phase) {
